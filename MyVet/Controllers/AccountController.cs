@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using MyVet.Helpers;
 using MyVet.Models;
 
@@ -11,10 +12,12 @@ namespace MyVet.Controllers
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
+        private readonly IConfiguration _configuration;
 
-        public AccountController(IUserHelper userHelper)
+        public AccountController(IUserHelper userHelper, IConfiguration configuration)
         {
             _userHelper = userHelper;
+            _configuration = configuration;
         }
 
         public IActionResult Login()
