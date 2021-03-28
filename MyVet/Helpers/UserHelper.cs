@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MyVet.Data.Entities;
 using MyVet.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyVet.Helpers
@@ -13,6 +10,7 @@ namespace MyVet.Helpers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<User> _signInManager;
+
         public UserHelper(
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
@@ -22,21 +20,6 @@ namespace MyVet.Helpers
             _roleManager = roleManager;
             _signInManager = signInManager;
         }
-
-        public async Task<SignInResult> LoginAsync(LoginViewModel model)
-        {
-            return await _signInManager.PasswordSignInAsync(
-                model.Username,
-                model.Password,
-                model.RememberMe,
-                false);
-        }
-
-        public async Task LogoutAsync()
-        {
-            await _signInManager.SignOutAsync();
-        }
-
 
         public async Task<IdentityResult> AddUserAsync(User user, string password)
         {
@@ -62,13 +45,26 @@ namespace MyVet.Helpers
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            return user;
+            return await _userManager.FindByEmailAsync(email);
         }
 
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)
         {
             return await _userManager.IsInRoleAsync(user, roleName);
+        }
+
+        public async Task<SignInResult> LoginAsync(LoginViewModel model)
+        {
+            return await _signInManager.PasswordSignInAsync(
+                model.Username,
+                model.Password,
+                model.RememberMe,
+                false);
+        }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
         }
 
         public async Task<bool> DeleteUserAsync(string email)
@@ -96,7 +92,35 @@ namespace MyVet.Helpers
                 false);
         }
 
+        public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
+        {
+            return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        }
 
+        public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
+        {
+            return await _userManager.ConfirmEmailAsync(user, token);
+        }
+
+        public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
+        {
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
+
+        public async Task<User> GetUserByIdAsync(string userId)
+        {
+            return await _userManager.FindByIdAsync(userId);
+        }
+
+        public async Task<string> GeneratePasswordResetTokenAsync(User user)
+        {
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+        public async Task<IdentityResult> ResetPasswordAsync(User user, string token, string password)
+        {
+            return await _userManager.ResetPasswordAsync(user, token, password);
+        }
     }
 
 }
