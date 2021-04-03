@@ -58,6 +58,7 @@ namespace MyVet
                 cfg.Password.RequireUppercase = false;
             }).AddEntityFrameworkStores<DataContext>();
 
+            services.AddScoped<IAgendaHelper, AgendaHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
@@ -82,6 +83,7 @@ namespace MyVet
 
             app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseCookiePolicy();

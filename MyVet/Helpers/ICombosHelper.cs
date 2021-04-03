@@ -8,5 +8,9 @@ namespace MyVet.Helpers
         IEnumerable<SelectListItem> GetComboPetTypes();
 
         IEnumerable<SelectListItem> GetComboServiceTypes();
+
+        IEnumerable<SelectListItem> GetComboOwners();
+
+        IEnumerable<SelectListItem> GetComboPets(int ownerId);
     }
 }
